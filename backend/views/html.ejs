@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <title>
+        Test EJS
+    </title>
+    <body>
+        <form method="POST" action="/users/new">
+        <input type="text" placeholder="Firstname" name="fname"/>
+        <input type="text" placeholder="Lastname" name="lname"/>
+        <input type="email" placeholder="Email" name="email"/>
+        <input type="password" placeholder="Password" name="password"/>
+        <input type="text" placeholder="Bio" name="bio"/>
+        <input type="text" placeholder="Gender" name="gender"/>
+        <input type="text" placeholder="Age" name="age"/>
+        <input type="submit" value="USer Register"/>
+        </form>
+        <br>
+        <hr>
+        <form method="GET" action="/">
+            <input type="text" placeholder="UserId" name="id"/>
+            <button type="submit">Get User</button>
+        </form>
+    </body>
+</html>
