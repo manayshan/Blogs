@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
 const userRoutes = require('./routes/userRoutes');
-const User = require('./models/userModel');
+const postRoutes = require('./routes/postRoutes');
+const commentRoutes = require('./routes/commentRoutes');
 
 const app = express();
 
@@ -23,20 +24,11 @@ app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
 app.use('/users', userRoutes);
+app.use('/posts', postRoutes);
+app.use('/comments', commentRoutes);
 
 app.get("/", function(req, res){
     res.render("html.ejs");
-})
-app.get("/:id", function(req, res) {
-    console.log(req.params.id);
-    User.findById(req.params.id, function(err, user) {
-        if(err) {
-            res.json({ Status:"error", Error:err});
-        }
-        else{
-            res.json({ Status:"success", Data: user});
-        }
-    });
 });
 
 app.listen(port, ()=>{

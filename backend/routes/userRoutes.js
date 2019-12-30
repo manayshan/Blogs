@@ -28,21 +28,22 @@ router.post('/new', function(req, res){
     });
 });
 
-//GET: get user
-// router.get("/:id", function(req, res) {
-//     console.log(req.params.id);
-//     User.findById(req.params.id, function(err, user) {
-//         if(err) {
-//             res.json({ Status:"error", Error:err});
-//         }
-//         else{
-//             res.json({ Status:"success", Data: user});
-//         }
-//     });
-// });
+// GET: get user
+router.get("/:id", function(req, res) {
+    console.log(req.params.id);
+    User.findById(req.params.id, function(err, user) {
+        if(err) {
+            res.json({ Status:"error", Error:err});
+        }
+        else{
+            res.json({ Status:"success", Data: user});
+        }
+    });
+});
 
 //PUT: update a user
 router.put("/:id", function(req, res) {
+    console.log(req.body);
     User.findByIdAndUpdate(req.params.id,
         {
             fname: req.body.fname,
@@ -58,7 +59,7 @@ router.put("/:id", function(req, res) {
                 res.json({ Status: "Error", Error: err});
             }
             else{
-                res.json({ Status: "successfully Updated", Data: user})
+                res.json({ Status: "successfully Updated"})
             }
         }
     );
