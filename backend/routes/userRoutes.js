@@ -3,6 +3,7 @@ const router = express.Router();
 
 const User = require('../models/userModel');
 const Post = require('../models/postModel');
+const Comment = require('../models/commentModel');
 
 //POST: Creating use
 router.post('/new', function(req, res){
@@ -59,9 +60,37 @@ router.put("/:id", function(req, res) {
                 res.json({ Status: "Error", Error: err});
             }
             else{
-                res.json({ Status: "successfully Updated"})
+                res.json({ Status: "successfully Updated"});
             }
         }
     );
 });
+
+router.get('/:id/userprofile', function(req, res){
+    var userObj = {};
+    User.findById(req.params.id, function(err, user){
+        if(err){
+            res.json({Status: 'Error', Error: err});
+        }else{
+            userObj.name = user.fname + ' ' + user.lname;
+            userObj.email =  user.email;
+            userObj.gender = user.gender;
+            userObj.age = user.age;
+            userObj.postCount = user.posts.length;
+            Comment.aggregate([
+                {$match: {'commented_by': req.params.id}},
+                {$count: 'comments'}
+            ],
+            function(err, comments){
+                if(err){
+                    res.json({Status: 'Error', Error: err});
+                }else{
+                    userObj.commentsCount= comments;
+                    res.json({Status:'Success', Data: userObj});
+                }
+            });
+        }
+    });
+});
+
 module.exports = router;

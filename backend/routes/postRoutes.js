@@ -60,6 +60,32 @@ router.post('/:id/new', function(req, res) {
     });
 });
 
+//Find all posts
+router.get('/allposts', function(req, res){
+    Post.find({}, function(err, posts){
+        if(err){
+            res.json({Status:'Error', Error: err});
+        }else{
+            res.json({Status: 'Success', Data: posts});
+        }
+    });
+});
+
+//Find top 10 posts sorted according to likes
+router.get('/indexPosts', function(req, res){
+    Post.aggregate([
+        {$sort: {likes: -1}},
+        {$limit: 10}
+    ],
+    function(err, posts){
+        if(err){
+            res.json({Status: 'Error', Error: err});
+        }else{
+            res.json({Status: 'Success', Data: posts});
+        }
+    });
+});
+
 //View post by Id
 router.get('/:id', function(req, res) {
     Post.findById(req.params.id, function(err, post){
@@ -91,6 +117,29 @@ router.put('/:id', function(req, res){
         );
 });
 
-//likes
+
+//Submitting likes
+router.post('/:id/likes', function(req, res) {
+    Post.findById(req.params.id, function(err, post){
+        if(err){
+            res.json({Status: 'Error', Error: err});
+        }else{
+            var tempLikes = post.likes;
+            tempLikes = tempLikes+1;
+            Post.findByIdAndUpdate(req.params.id,
+                {
+                    likes: tempLikes
+                },
+                function(err, posts){
+                    if(err){
+                        res.json({Status: 'Error', Error: err});
+                    }else{
+                        res.json({Status: 'Success- Likes Updated'});
+                    }
+                });
+            }
+        });
+});
+
 
 module.exports = router;
