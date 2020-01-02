@@ -119,7 +119,7 @@ router.put('/:id', function(req, res){
 
 
 //Submitting likes
-router.post('/:id/likes', function(req, res) {
+router.put('/:id/likes', function(req, res) {
     Post.findById(req.params.id, function(err, post){
         if(err){
             res.json({Status: 'Error', Error: err});

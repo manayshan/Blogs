@@ -27,9 +27,9 @@ app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 app.use('/comments', commentRoutes);
 
-app.get("/", function(req, res){
-    res.render("html.ejs");
-});
+// app.get("/", function(req, res){
+//     res.render("html.ejs");
+// });
 
 app.listen(port, ()=>{
     console.log('Server is running on', port);
